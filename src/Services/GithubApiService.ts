@@ -55,11 +55,12 @@ export class GithubApiService extends GithubRepository {
     );
   }
   async requestUserInfo(username: string): Promise<UserInfo | ServiceError> {
-    // Avoid to call others if one of them is null
     const repository = await this.requestUserRepository(username);
 
     if (repository instanceof ServiceError) {
-      Logger.error(repository);
+      Logger.error(
+        `Error al obtener repositorio para ${username}: ${repository.message}`,
+      );
       return repository;
     }
 
@@ -68,16 +69,18 @@ export class GithubApiService extends GithubRepository {
       this.requestUserIssue(username),
       this.requestUserPullRequest(username),
     ]);
+
     const [activity, issue, pullRequest] = await promises;
-    const status = [
-      activity.status,
-      issue.status,
-      pullRequest.status,
-    ];
+    const status = [activity.status, issue.status, pullRequest.status];
 
     if (status.includes("rejected")) {
-      Logger.error(`Can not find a user with username:' ${username}'`);
-      return new ServiceError("Not found", EServiceKindError.NOT_FOUND);
+      Logger.error(
+        `No se pudo encontrar un usuario con el nombre: '${username}'`,
+      );
+      return new ServiceError(
+        "Usuario no encontrado",
+        EServiceKindError.NOT_FOUND,
+      );
     }
 
     return new UserInfo(
@@ -98,21 +101,21 @@ export class GithubApiService extends GithubRepository {
         CONSTANTS.DEFAULT_GITHUB_RETRY_DELAY,
       );
       return await retry.fetch<Promise<T>>(async ({ attempt }) => {
-        return await requestGithubData(
-          query,
-          variables,
-          TOKENS[attempt],
-        );
+        return await requestGithubData(query, variables, TOKENS[attempt]);
       });
     } catch (error) {
-      if (error.cause instanceof ServiceError) {
-        Logger.error(error.cause.message);
-        return error.cause;
-      }
-      if (error instanceof Error && error.cause) {
-        Logger.error(JSON.stringify(error.cause, null, 2));
+      if (error instanceof Error) {
+        if (error.cause instanceof ServiceError) {
+          Logger.error(error.cause.message);
+          return error.cause;
+        }
+        if (error.cause) {
+          Logger.error(JSON.stringify(error.cause, null, 2));
+        } else {
+          Logger.error(error.message);
+        }
       } else {
-        Logger.error(error);
+        Logger.error(String(error));
       }
       return new ServiceError("not found", EServiceKindError.NOT_FOUND);
     }

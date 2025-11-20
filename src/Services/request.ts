@@ -6,35 +6,51 @@ import {
   QueryDefaultResponse,
   ServiceError,
 } from "../Types/index.ts";
+import { Logger } from "../Helpers/Logger.ts";
 
 export async function requestGithubData<T = unknown>(
   query: string,
   variables: { [key: string]: string },
   token = "",
 ) {
-  const response = await soxa.post("", {}, {
-    data: { query, variables },
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-  }) as QueryDefaultResponse<{ user: T }>;
-  const responseData = response.data;
+  try {
+    const response = (await soxa.post(
+      "",
+      {},
+      {
+        data: { query, variables },
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      },
+    )) as QueryDefaultResponse<{ user: T }>;
 
-  if (responseData?.data?.user) {
-    return responseData.data.user;
+    const responseData = response.data;
+
+    if (responseData?.data?.user) {
+      return responseData.data.user;
+    }
+
+    throw handleError(
+      responseData as unknown as GithubErrorResponse | GithubExceedError,
+    );
+  } catch (error) {
+    if (error instanceof Error) {
+      Logger.error(`Error en la solicitud de GitHub: ${error.message}`);
+    } else {
+      Logger.error(`Error en la solicitud de GitHub: ${String(error)}`);
+    }
+    throw error;
   }
-
-  throw handleError(
-    responseData as unknown as GithubErrorResponse | GithubExceedError,
-  );
 }
 
 function handleError(
-  reponseErrors: GithubErrorResponse | GithubExceedError,
+  responseErrors: GithubErrorResponse | GithubExceedError,
 ): ServiceError {
+  const arrayErrors = (responseErrors as GithubErrorResponse)?.errors || [];
+  const objectError = (responseErrors as GithubExceedError) || {};
+
   let isRateLimitExceeded = false;
-  const arrayErrors = (reponseErrors as GithubErrorResponse)?.errors || [];
-  const objectError = (reponseErrors as GithubExceedError) || {};
 
   if (Array.isArray(arrayErrors)) {
     isRateLimitExceeded = arrayErrors.some((error) =>
@@ -43,20 +59,21 @@ function handleError(
   }
 
   if (objectError?.message) {
-    isRateLimitExceeded = objectError?.message.includes(
-      "rate limit",
-    );
+    isRateLimitExceeded = objectError.message
+      .toLowerCase()
+      .includes("rate limit");
   }
 
   if (isRateLimitExceeded) {
+    Logger.warn("Límite de velocidad de API de GitHub excedido");
     throw new ServiceError(
-      "Rate limit exceeded",
+      "Se ha excedido el límite de solicitudes. Por favor, intenta de nuevo más tarde.",
       EServiceKindError.RATE_LIMIT,
     );
   }
 
   throw new ServiceError(
-    "unknown error",
+    "No se pudo procesar la solicitud",
     EServiceKindError.NOT_FOUND,
   );
 }

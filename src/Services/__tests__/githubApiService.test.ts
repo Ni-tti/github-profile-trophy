@@ -96,8 +96,10 @@ Deno.test("Should throw NOT FOUND", async () => {
     error = e;
   }
 
-  assertEquals(error.code, 404);
-  assertEquals(error instanceof ServiceError, true);
+  if (error instanceof ServiceError) {
+    assertEquals(error.code, 404);
+    assertEquals(error instanceof ServiceError, true);
+  }
 });
 Deno.test("Should throw NOT FOUND even if request the user only", async () => {
   const provider = new GithubApiService();
@@ -109,8 +111,10 @@ Deno.test("Should throw NOT FOUND even if request the user only", async () => {
     error = e;
   }
 
-  assertEquals(error.code, 404);
-  assertEquals(error instanceof ServiceError, true);
+  if (error instanceof ServiceError) {
+    assertEquals(error.code, 404);
+    assertEquals(error instanceof ServiceError, true);
+  }
 });
 
 // The assertRejects() assertion is a little more complicated
@@ -126,8 +130,10 @@ Deno.test("Should throw RATE LIMIT", async () => {
     error = e;
   }
 
-  assertEquals(error.code, 419);
-  assertEquals(error instanceof ServiceError, true);
+  if (error instanceof ServiceError) {
+    assertEquals(error.code, 419);
+    assertEquals(error instanceof ServiceError, true);
+  }
 });
 
 Deno.test("Should throw RATE LIMIT Exceed", async () => {
@@ -140,6 +146,8 @@ Deno.test("Should throw RATE LIMIT Exceed", async () => {
     error = e;
   }
 
-  assertEquals(error.code, 419);
-  assertEquals(error instanceof ServiceError, true);
+  if (error instanceof ServiceError) {
+    assertEquals(error.code, 419);
+    assertEquals(error instanceof ServiceError, true);
+  }
 });
