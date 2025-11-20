@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-import-prefix
 import { Card } from "../src/card.ts";
 import { CONSTANTS, parseParams } from "../src/utils.ts";
 import { COLORS, Theme } from "../src/theme.ts";
@@ -78,21 +79,21 @@ async function app(req: Request): Promise<Response> {
       <div>
         <h2>You can use this form: </h2>
         <p>Enter your username and click get trophies</p>
-        <form action="https://github-profile-trophy.vercel.app/" method="get">
+        <form action="https://trophy.nicolhetti.com.ar/" method="get">
           <label for="username">GitHub Username</label>
           <input type="text" name="username" id="username" placeholder="Ex. gabriel-logan" required>
           <label for="theme">Theme (Optional)</label>
           <input type="text" name="theme" id="theme" placeholder="Ex. onedark" value="light">
           <text>
             See all the available themes
-            <a href="https://github.com/ryo-ma/github-profile-trophy?tab=readme-ov-file#apply-theme" target="_blank">here</a>
+            <a href="https://github.com/Nicolhetti/github-profile-trophy?tab=readme-ov-file#apply-theme" target="_blank">here</a>
           </text>
           <br>
           <button type="submit">Get Trophy&apos;s</button>
         </form>
       </div>
       <script>
-        const base = "https://github-profile-trophy.vercel.app/";
+        const base = "https://trophy.nicolhetti.com.ar/";
         const button = document.querySelector("button");
         const input = document.querySelector("input");
         const temporarySpan = document.querySelector("#temporary-span");

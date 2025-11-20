@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-import-prefix
 import { Soxa as ServiceProvider } from "https://deno.land/x/soxa@1.4/src/core/Soxa.ts";
 import { defaults } from "https://deno.land/x/soxa@1.4/src/defaults.ts";
 import {
