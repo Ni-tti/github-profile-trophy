@@ -26,12 +26,12 @@ export class Trophy {
     this.setRank();
   }
   setRank() {
-    const sortedRankConditions = this.rankConditions.toSorted((a, b) =>
-      RANK_ORDER.indexOf(a.rank) - RANK_ORDER.indexOf(b.rank)
+    const sortedRankConditions = this.rankConditions.toSorted(
+      (a, b) => RANK_ORDER.indexOf(a.rank) - RANK_ORDER.indexOf(b.rank),
     );
     // Set the rank that hit the first condition
-    const rankCondition = sortedRankConditions.find((r) =>
-      this.score >= r.requiredScore
+    const rankCondition = sortedRankConditions.find(
+      (r) => this.score >= r.requiredScore,
     );
     if (rankCondition != null) {
       this.rank = rankCondition.rank;
@@ -49,8 +49,8 @@ export class Trophy {
       return 1;
     }
     const nextRank = RANK_ORDER[nextRankIndex];
-    const nextRankCondition = this.rankConditions.find((r) =>
-      r.rank == nextRank
+    const nextRankCondition = this.rankConditions.find(
+      (r) => r.rank == nextRank,
     );
     const distance = nextRankCondition!.requiredScore -
       this.rankCondition!.requiredScore;
@@ -66,8 +66,12 @@ export class Trophy {
     noBackground = CONSTANTS.DEFAULT_NO_BACKGROUND,
     noFrame = CONSTANTS.DEFAULT_NO_FRAME,
   ): string {
-    const { BACKGROUND: PRIMARY, TITLE: SECONDARY, TEXT, NEXT_RANK_BAR } =
-      theme;
+    const {
+      BACKGROUND: PRIMARY,
+      TITLE: SECONDARY,
+      TEXT,
+      NEXT_RANK_BAR,
+    } = theme;
     const nextRankBar = getNextRankBar(
       this.title,
       this.calculateNextRankPercentage(),
@@ -107,11 +111,7 @@ export class Trophy {
 export class MultipleLangTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SECRET,
-        "Rainbow Lang User",
-        10,
-      ),
+      new RankCondition(RANK.SECRET, "Rainbow Lang User", 10),
     ];
     super(score, rankConditions);
     this.title = "MultiLanguage";
@@ -122,13 +122,7 @@ export class MultipleLangTrophy extends Trophy {
 
 export class AllSuperRankTrophy extends Trophy {
   constructor(score: number) {
-    const rankConditions = [
-      new RankCondition(
-        RANK.SECRET,
-        "S Rank Hacker",
-        1,
-      ),
-    ];
+    const rankConditions = [new RankCondition(RANK.SECRET, "S Rank Hacker", 1)];
     super(score, rankConditions);
     this.title = "AllSuperRank";
     this.filterTitles = ["AllSuperRank"];
@@ -139,11 +133,7 @@ export class AllSuperRankTrophy extends Trophy {
 export class Joined2020Trophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SECRET,
-        "Everything started...",
-        1,
-      ),
+      new RankCondition(RANK.SECRET, "Everything started...", 1),
     ];
     super(score, rankConditions);
     this.title = "Joined2020";
@@ -154,13 +144,7 @@ export class Joined2020Trophy extends Trophy {
 }
 export class AncientAccountTrophy extends Trophy {
   constructor(score: number) {
-    const rankConditions = [
-      new RankCondition(
-        RANK.SECRET,
-        "Ancient User",
-        1,
-      ),
-    ];
+    const rankConditions = [new RankCondition(RANK.SECRET, "Ancient User", 1)];
     super(score, rankConditions);
     this.title = "AncientUser";
     this.filterTitles = ["AncientUser"];
@@ -171,11 +155,7 @@ export class AncientAccountTrophy extends Trophy {
 export class LongTimeAccountTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SECRET,
-        "Village Elder",
-        10,
-      ),
+      new RankCondition(RANK.SECRET, "Village Elder", 10),
     ];
     super(score, rankConditions);
     this.title = "LongTimeUser";
@@ -202,13 +182,7 @@ export class MultipleOrganizationsTrophy extends Trophy {
 
 export class OGAccountTrophy extends Trophy {
   constructor(score: number) {
-    const rankConditions = [
-      new RankCondition(
-        RANK.SECRET,
-        "OG User",
-        1,
-      ),
-    ];
+    const rankConditions = [new RankCondition(RANK.SECRET, "OG User", 1)];
     super(score, rankConditions);
     this.title = "OGUser";
     this.filterTitles = ["OGUser"];
@@ -220,46 +194,14 @@ export class OGAccountTrophy extends Trophy {
 export class TotalReviewsTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SSS,
-        "God Reviewer",
-        70,
-      ),
-      new RankCondition(
-        RANK.SS,
-        "Deep Reviewer",
-        57,
-      ),
-      new RankCondition(
-        RANK.S,
-        "Super Reviewer",
-        45,
-      ),
-      new RankCondition(
-        RANK.AAA,
-        "Ultra Reviewer",
-        30,
-      ),
-      new RankCondition(
-        RANK.AA,
-        "Hyper Reviewer",
-        20,
-      ),
-      new RankCondition(
-        RANK.A,
-        "Active Reviewer",
-        8,
-      ),
-      new RankCondition(
-        RANK.B,
-        "Intermediate Reviewer",
-        3,
-      ),
-      new RankCondition(
-        RANK.C,
-        "New Reviewer",
-        1,
-      ),
+      new RankCondition(RANK.SSS, "God Reviewer", 70),
+      new RankCondition(RANK.SS, "Deep Reviewer", 57),
+      new RankCondition(RANK.S, "Super Reviewer", 45),
+      new RankCondition(RANK.AAA, "Ultra Reviewer", 30),
+      new RankCondition(RANK.AA, "Hyper Reviewer", 20),
+      new RankCondition(RANK.A, "Active Reviewer", 8),
+      new RankCondition(RANK.B, "Intermediate Reviewer", 3),
+      new RankCondition(RANK.C, "New Reviewer", 1),
     ];
     super(score, rankConditions);
     this.title = "Reviews";
@@ -270,146 +212,57 @@ export class TotalReviewsTrophy extends Trophy {
 export class AccountDurationTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SSS,
-        "Seasoned Veteran",
-        70, // 20 years
-      ),
-      new RankCondition(
-        RANK.SS,
-        "Grandmaster",
-        55, // 15 years
-      ),
-      new RankCondition(
-        RANK.S,
-        "Master Dev",
-        40, // 10 years
-      ),
-      new RankCondition(
-        RANK.AAA,
-        "Expert Dev",
-        28, // 7.5 years
-      ),
-      new RankCondition(
-        RANK.AA,
-        "Experienced Dev",
-        18, // 5 years
-      ),
-      new RankCondition(
-        RANK.A,
-        "Intermediate Dev",
-        11, // 3 years
-      ),
-      new RankCondition(
-        RANK.B,
-        "Junior Dev",
-        6, // 1.5 years
-      ),
-      new RankCondition(
-        RANK.C,
-        "Newbie",
-        2, // 0.5 year
-      ),
+      new RankCondition(RANK.SSS, "Veterano Experimentado", 70),
+      new RankCondition(RANK.SS, "Gran Maestro", 55),
+      new RankCondition(RANK.S, "Desarrollador Maestro", 40),
+      new RankCondition(RANK.AAA, "Desarrollador Experto", 28),
+      new RankCondition(RANK.AA, "Desarrollador Experimentado", 18),
+      new RankCondition(RANK.A, "Desarrollador Intermedio", 11),
+      new RankCondition(RANK.B, "Desarrollador Junior", 6),
+      new RankCondition(RANK.C, "Novato", 2),
     ];
     super(score, rankConditions);
-    this.title = "Experience";
-    this.filterTitles = ["Experience", "Duration", "Since"];
+    this.title = "Experiencia";
+    this.filterTitles = [
+      "Experience",
+      "Duration",
+      "Since",
+      "Experiencia",
+      "Duración",
+      "Desde",
+    ];
   }
 }
 
 export class TotalStarTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SSS,
-        "Super Stargazer",
-        2000,
-      ),
-      new RankCondition(
-        RANK.SS,
-        "High Stargazer",
-        700,
-      ),
-      new RankCondition(
-        RANK.S,
-        "Stargazer",
-        200,
-      ),
-      new RankCondition(
-        RANK.AAA,
-        "Super Star",
-        100,
-      ),
-      new RankCondition(
-        RANK.AA,
-        "High Star",
-        50,
-      ),
-      new RankCondition(
-        RANK.A,
-        "You are a Star",
-        30,
-      ),
-      new RankCondition(
-        RANK.B,
-        "Middle Star",
-        10,
-      ),
-      new RankCondition(
-        RANK.C,
-        "First Star",
-        1,
-      ),
+      new RankCondition(RANK.SSS, "Súper Observador de Estrellas", 2000),
+      new RankCondition(RANK.SS, "Alto Observador de Estrellas", 700),
+      new RankCondition(RANK.S, "Observador de Estrellas", 200),
+      new RankCondition(RANK.AAA, "Súper Estrella", 100),
+      new RankCondition(RANK.AA, "Alta Estrella", 50),
+      new RankCondition(RANK.A, "Eres una Estrella", 30),
+      new RankCondition(RANK.B, "Estrella Media", 10),
+      new RankCondition(RANK.C, "Primera Estrella", 1),
     ];
     super(score, rankConditions);
-    this.title = "Stars";
-    this.filterTitles = ["Star", "Stars"];
+    this.title = "Estrellas";
+    this.filterTitles = ["Star", "Stars", "Estrella", "Estrellas"];
   }
 }
 
 export class TotalCommitTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SSS,
-        "God Committer",
-        4000,
-      ),
-      new RankCondition(
-        RANK.SS,
-        "Deep Committer",
-        2000,
-      ),
-      new RankCondition(
-        RANK.S,
-        "Super Committer",
-        1000,
-      ),
-      new RankCondition(
-        RANK.AAA,
-        "Ultra Committer",
-        500,
-      ),
-      new RankCondition(
-        RANK.AA,
-        "Hyper Committer",
-        200,
-      ),
-      new RankCondition(
-        RANK.A,
-        "High Committer",
-        100,
-      ),
-      new RankCondition(
-        RANK.B,
-        "Middle Committer",
-        10,
-      ),
-      new RankCondition(
-        RANK.C,
-        "First Commit",
-        1,
-      ),
+      new RankCondition(RANK.SSS, "Maestro del Commit", 4000),
+      new RankCondition(RANK.SS, "Committer Profundo", 2000),
+      new RankCondition(RANK.S, "Súper Committer", 1000),
+      new RankCondition(RANK.AAA, "Ultra Committer", 500),
+      new RankCondition(RANK.AA, "Hiper Committer", 200),
+      new RankCondition(RANK.A, "Alto Committer", 100),
+      new RankCondition(RANK.B, "Committer Medio", 10),
+      new RankCondition(RANK.C, "Primer Commit", 1),
     ];
     super(score, rankConditions);
     this.title = "Commits";
@@ -420,46 +273,14 @@ export class TotalCommitTrophy extends Trophy {
 export class TotalFollowerTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SSS,
-        "Super Celebrity",
-        1000,
-      ),
-      new RankCondition(
-        RANK.SS,
-        "Ultra Celebrity",
-        400,
-      ),
-      new RankCondition(
-        RANK.S,
-        "Hyper Celebrity",
-        200,
-      ),
-      new RankCondition(
-        RANK.AAA,
-        "Famous User",
-        100,
-      ),
-      new RankCondition(
-        RANK.AA,
-        "Active User",
-        50,
-      ),
-      new RankCondition(
-        RANK.A,
-        "Dynamic User",
-        20,
-      ),
-      new RankCondition(
-        RANK.B,
-        "Many Friends",
-        10,
-      ),
-      new RankCondition(
-        RANK.C,
-        "First Friend",
-        1,
-      ),
+      new RankCondition(RANK.SSS, "Super Celebrity", 1000),
+      new RankCondition(RANK.SS, "Ultra Celebrity", 400),
+      new RankCondition(RANK.S, "Hyper Celebrity", 200),
+      new RankCondition(RANK.AAA, "Famous User", 100),
+      new RankCondition(RANK.AA, "Active User", 50),
+      new RankCondition(RANK.A, "Dynamic User", 20),
+      new RankCondition(RANK.B, "Many Friends", 10),
+      new RankCondition(RANK.C, "First Friend", 1),
     ];
     super(score, rankConditions);
     this.title = "Followers";
@@ -470,46 +291,14 @@ export class TotalFollowerTrophy extends Trophy {
 export class TotalIssueTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SSS,
-        "God Issuer",
-        1000,
-      ),
-      new RankCondition(
-        RANK.SS,
-        "Deep Issuer",
-        500,
-      ),
-      new RankCondition(
-        RANK.S,
-        "Super Issuer",
-        200,
-      ),
-      new RankCondition(
-        RANK.AAA,
-        "Ultra Issuer",
-        100,
-      ),
-      new RankCondition(
-        RANK.AA,
-        "Hyper Issuer",
-        50,
-      ),
-      new RankCondition(
-        RANK.A,
-        "High Issuer",
-        20,
-      ),
-      new RankCondition(
-        RANK.B,
-        "Middle Issuer",
-        10,
-      ),
-      new RankCondition(
-        RANK.C,
-        "First Issue",
-        1,
-      ),
+      new RankCondition(RANK.SSS, "God Issuer", 1000),
+      new RankCondition(RANK.SS, "Deep Issuer", 500),
+      new RankCondition(RANK.S, "Super Issuer", 200),
+      new RankCondition(RANK.AAA, "Ultra Issuer", 100),
+      new RankCondition(RANK.AA, "Hyper Issuer", 50),
+      new RankCondition(RANK.A, "High Issuer", 20),
+      new RankCondition(RANK.B, "Middle Issuer", 10),
+      new RankCondition(RANK.C, "First Issue", 1),
     ];
     super(score, rankConditions);
     this.title = "Issues";
@@ -520,46 +309,14 @@ export class TotalIssueTrophy extends Trophy {
 export class TotalPullRequestTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SSS,
-        "God Puller",
-        1000,
-      ),
-      new RankCondition(
-        RANK.SS,
-        "Deep Puller",
-        500,
-      ),
-      new RankCondition(
-        RANK.S,
-        "Super Puller",
-        200,
-      ),
-      new RankCondition(
-        RANK.AAA,
-        "Ultra Puller",
-        100,
-      ),
-      new RankCondition(
-        RANK.AA,
-        "Hyper Puller",
-        50,
-      ),
-      new RankCondition(
-        RANK.A,
-        "High Puller",
-        20,
-      ),
-      new RankCondition(
-        RANK.B,
-        "Middle Puller",
-        10,
-      ),
-      new RankCondition(
-        RANK.C,
-        "First Pull",
-        1,
-      ),
+      new RankCondition(RANK.SSS, "God Puller", 1000),
+      new RankCondition(RANK.SS, "Deep Puller", 500),
+      new RankCondition(RANK.S, "Super Puller", 200),
+      new RankCondition(RANK.AAA, "Ultra Puller", 100),
+      new RankCondition(RANK.AA, "Hyper Puller", 50),
+      new RankCondition(RANK.A, "High Puller", 20),
+      new RankCondition(RANK.B, "Middle Puller", 10),
+      new RankCondition(RANK.C, "First Pull", 1),
     ];
     super(score, rankConditions);
     this.title = "PullRequest";
@@ -570,46 +327,14 @@ export class TotalPullRequestTrophy extends Trophy {
 export class TotalRepositoryTrophy extends Trophy {
   constructor(score: number) {
     const rankConditions = [
-      new RankCondition(
-        RANK.SSS,
-        "God Repo Creator",
-        100,
-      ),
-      new RankCondition(
-        RANK.SS,
-        "Deep Repo Creator",
-        90,
-      ),
-      new RankCondition(
-        RANK.S,
-        "Super Repo Creator",
-        80,
-      ),
-      new RankCondition(
-        RANK.AAA,
-        "Ultra Repo Creator",
-        50,
-      ),
-      new RankCondition(
-        RANK.AA,
-        "Hyper Repo Creator",
-        30,
-      ),
-      new RankCondition(
-        RANK.A,
-        "High Repo Creator",
-        20,
-      ),
-      new RankCondition(
-        RANK.B,
-        "Middle Repo Creator",
-        10,
-      ),
-      new RankCondition(
-        RANK.C,
-        "First Repository",
-        1,
-      ),
+      new RankCondition(RANK.SSS, "God Repo Creator", 100),
+      new RankCondition(RANK.SS, "Deep Repo Creator", 90),
+      new RankCondition(RANK.S, "Super Repo Creator", 80),
+      new RankCondition(RANK.AAA, "Ultra Repo Creator", 50),
+      new RankCondition(RANK.AA, "Hyper Repo Creator", 30),
+      new RankCondition(RANK.A, "High Repo Creator", 20),
+      new RankCondition(RANK.B, "Middle Repo Creator", 10),
+      new RankCondition(RANK.C, "First Repository", 1),
     ];
     super(score, rankConditions);
     this.title = "Repositories";
