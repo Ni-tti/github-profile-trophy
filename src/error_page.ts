@@ -105,26 +105,66 @@ abstract class BaseError {
     <body>
       <h1 style="text-align: center;">${this.status} - ${this.message}</h1>
       <p style="text-align: center;">${this.content ?? ""}</p>
-      ${
-      this.content &&
-      '<a id="back-link" href="/">Go back</a>'
-    }
+      ${this.content && '<a id="back-link" href="/">Go back</a>'}
     </body>
     </html>`;
   }
 }
 
 export class Error400 extends BaseError {
-  readonly status = 400;
-  readonly message = "Bad Request";
+  override readonly status = 400;
+  override readonly message = "Solicitud Incorrecta";
+
+  constructor(content?: string) {
+    super(
+      content ||
+        `
+      <section>
+        <div>
+          <h2>"username" es un parámetro de consulta requerido</h2>
+          <p>La URL debería verse como
+          <div>
+            <p id="base-show">${location.origin}?username=NOMBRE_USUARIO</p>
+            <button>Copiar URL Base</button>
+            <span id="temporary-span"></span>
+          </div>donde
+          <code>NOMBRE_USUARIO</code> es <em>tu nombre de usuario de GitHub.</em>
+        </div>
+        <div>
+          <h2>Puedes usar este formulario: </h2>
+          <p>Ingresa tu nombre de usuario y haz clic en obtener trofeos</p>
+          <form action="${location.origin}/" method="get">
+            <label for="username">Nombre de Usuario de GitHub</label>
+            <input type="text" name="username" id="username" placeholder="Ej. Nicolhetti" required>
+            <label for="theme">Tema (Opcional)</label>
+            <input type="text" name="theme" id="theme" placeholder="Ej. onedark" value="flat">
+            <text>
+              Ver todos los temas disponibles
+              <a href="https://github.com/Nicolhetti/github-profile-trophy#aplicar-tema" target="_blank">aquí</a>
+            </text>
+            <br>
+            <button type="submit">Obtener Trofeos</button>
+          </form>
+        </div>
+      </section>
+    `,
+    );
+  }
 }
 
 export class Error419 extends BaseError {
-  readonly status = 419;
-  readonly message = "Rate Limit Exceeded";
+  override readonly status = 419;
+  override readonly message = "Límite de Velocidad Excedido";
+
+  constructor(content?: string) {
+    super(
+      content ||
+        "Has realizado demasiadas solicitudes. Por favor, espera unos minutos antes de intentar de nuevo.",
+    );
+  }
 }
 
 export class Error404 extends BaseError {
-  readonly status = 404;
-  readonly message = "Not Found";
+  override readonly status = 404;
+  override readonly message = "No Encontrado";
 }
